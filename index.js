@@ -48,7 +48,7 @@ function setRP(data) {
         // idle prob
         confirm({
             details: 'Not in game',
-            state: ''
+            state: '',
             largeImageKey: 'icon',
             smallImageText: data.player.name,
         });
