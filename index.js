@@ -46,12 +46,16 @@ console.log(`Server is listening to ${host}:${port}`);
 function setRP(data) {
     if (!data.map) {
         // idle prob
-        confirm({
-            details: 'Not in game',
-            state: '',
-            largeImageKey: 'icon',
-            smallImageText: data.player.name,
-        });
+        try {
+            confirm({
+                details: 'Not in game',
+                state: '',
+                largeImageKey: 'icon',
+                smallImageText: data.player.name,
+            });
+        } catch (e) {
+            throw (e);
+        }
     } else {
         let surfing = 'surfing';
         if (data.provider.steamid != data.player.steamid) surfing = 'spectating';
@@ -63,18 +67,40 @@ function setRP(data) {
         if (milli.length > '2') milli = fixTime(milli.slice(0, -1));
         else milli = fixTime(milli);
         var map = data.map.name.split('/')[2] || data.map.name;
-        confirm({
-            details: `${surfing} on ${map}`,
-            state: `Timer: ${minutes}:${seconds}`,
-            largeImageKey: 'map_na',
-            largeImageText: data.map.name.split('/')[3] || data.map.name,
-            smallImageText: data.player.name,
-        });
+        if (map.startsWith('surf_')) {
+            try {
+                confirm({
+                    details: `${surfing} on ${map}`,
+                    state: `Timer: ${minutes}:${seconds}`,
+                    largeImageKey: 'map_na',
+                    largeImageText: data.map.name.split('/')[3] || data.map.name,
+                    smallImageText: data.player.name,
+                });
+            } catch (e) {
+                throw (e);
+            }
+        } else {
+            confirm(fix);
+        }
+
     }
 }
 
+const fix = {
+    details: "",
+    state: "",
+    largeImageKey: 'map_na',
+    largeImageText: "",
+    smallImageText: "",
+};
+
 function confirm(rp) {
-    rpc.updatePresence(rp);
+    if (!rp) rp = fix;
+    try {
+        rpc.updatePresence(rp);
+    } catch (e) {
+        throw (e);
+    }
 }
 
 function fixTime(number) {
