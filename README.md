@@ -8,5 +8,5 @@
 
 # todo
 
-- add runtime display
-- add an icon
+- [x] add runtime display
+- [ ] add an icon
