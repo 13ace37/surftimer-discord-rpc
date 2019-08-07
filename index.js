@@ -71,7 +71,7 @@ function setRP(data) {
                 confirm({
                     details: `${surfing} on ${map}`,
                     state: `Timer: ${minutes}:${seconds}`,
-                    largeImageKey: 'map_na',
+                    largeImageKey: 'icon',
                     largeImageText: data.map.name.split('/')[3] || data.map.name,
                     smallImageText: data.player.name,
                 });
@@ -88,7 +88,7 @@ function setRP(data) {
 const fix = {
     details: "--",
     state: "--",
-    largeImageKey: 'map_na',
+    largeImageKey: 'icon',
     largeImageText: "",
     smallImageText: "",
 };
