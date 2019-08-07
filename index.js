@@ -2,7 +2,7 @@ console.clear(); //clears console
 
 const http = require('http'); //http module
 
-const port = 5555; //defines server port
+const port = 5555; //defines server port    
 const host = '127.0.0.1'; //defines server host
 
 const appID = require('./config/config.json').RPCID; //require config file/appID
@@ -32,8 +32,7 @@ const server = http.createServer((req, res) => { //sorry but im to fcking lazy t
 
         });
     } else {
-        console.log('Not expecting other request types...');
-        res.writeHead(401, {
+        res.writeHead(500, {
             'Content-Type': 'text/html'
         });
         res.end('');
@@ -49,7 +48,7 @@ function setRP(data) {
         try {
             confirm({
                 details: 'Not in game',
-                state: '',
+                state: '--',
                 largeImageKey: 'icon',
                 smallImageText: data.player.name,
             });
@@ -87,8 +86,8 @@ function setRP(data) {
 }
 
 const fix = {
-    details: "",
-    state: "",
+    details: "--",
+    state: "--",
     largeImageKey: 'map_na',
     largeImageText: "",
     smallImageText: "",
