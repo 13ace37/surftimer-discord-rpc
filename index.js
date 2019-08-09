@@ -5,11 +5,7 @@ const http = require('http'); //http module
 const port = 5555; //defines server port    
 const host = '127.0.0.1'; //defines server host
 
-const appID = require('./config/config.json').RPCID; //require config file/appID
-
-if (!appID) return console.error('Enter a application id in the config file - ./config/config.json'); //check if appID is defined
-
-const rpc = require('discord-rich-presence')(appID); //discord rich-presence module
+const rpc = require('discord-rich-presence')("559388357654872064"); //discord rich-presence module
 
 const server = http.createServer((req, res) => { //sorry but im to fcking lazy to comment all this ._.
     if (req.method == 'POST') {
@@ -58,21 +54,25 @@ function setRP(data) {
     } else {
         let surfing = 'surfing';
         if (data.provider.steamid != data.player.steamid) surfing = 'spectating';
-        let ms = data.player.match_stats.kills * 1000;
-        let round = ms > 0 ? Math.floor : Math.ceil;
-        let minutes = fixTime(round(ms / 60000) % 60);
-        let seconds = fixTime(round(ms / 1000) % 60);
-        let milli = round(ms) % 1000;
-        if (milli.length > '2') milli = fixTime(milli.slice(0, -1));
-        else milli = fixTime(milli);
+        var time = "*disabled*";
+        if (data.player.match_stats.kills > 0) {
+            let ms = data.player.match_stats.kills * 1000;
+            let round = ms > 0 ? Math.floor : Math.ceil;
+            let minutes = fixTime(round(ms / 60000) % 60);
+            let seconds = fixTime(round(ms / 1000) % 60);
+            let milli = round(ms) % 1000;
+            if (milli.length > '2') milli = fixTime(milli.slice(0, -1));
+            else milli = fixTime(milli);
+            time = `${minutes}:${seconds}`;
+        } else 
         var map = data.map.name.split('/')[2] || data.map.name;
         if (map.startsWith('surf_')) {
             try {
                 confirm({
                     details: `${surfing} on ${map}`,
-                    state: `Timer: ${minutes}:${seconds}`,
+                    state: `Timer: `,
                     largeImageKey: 'icon',
-                    largeImageText: data.map.name.split('/')[3] || data.map.name,
+                    largeImageText: data.map.name.split('/')[2] || data.map.name,
                     smallImageText: data.player.name,
                 });
             } catch (e) {
@@ -86,9 +86,9 @@ function setRP(data) {
 }
 
 const fix = {
-    details: "--",
-    state: "--",
-    largeImageKey: 'icon',
+    details: "- Playing on a non surf_ map -",
+    state: "N/A",
+    largeImageKey: '',
     largeImageText: "",
     smallImageText: "",
 };
