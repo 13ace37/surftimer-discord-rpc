@@ -38,13 +38,16 @@ const server = http.createServer((req, res) => { //sorry but im to fcking lazy t
 server.listen(port, host);
 console.log(`Server is listening to ${host}:${port}`);
 
+var locktime = false;
+var idle;
+
 function setRP(data) {
     if (!data.map) {
         // idle prob
         try {
             confirm({
-                details: 'Not in game',
-                state: '--',
+                details: '- Not in game -',
+                state: 'N/A',
                 largeImageKey: 'icon',
                 smallImageText: data.player.name,
             });
@@ -54,7 +57,15 @@ function setRP(data) {
     } else {
         let surfing = 'surfing';
         if (data.provider.steamid != data.player.steamid) surfing = 'spectating';
-        var time = "*disabled*";
+        var time = "--:--";
+        var rank = "N/A";
+        if (!data.previously || data.previously == undefined) idle = setTimeout(function() {locktime = true;}, 25000);
+        else {
+            clearTimeout(idle);
+            locktime = false;
+        } 
+        if (locktime) surfing = "idling";
+
         if (data.player.match_stats.kills > 0) {
             let ms = data.player.match_stats.kills * 1000;
             let round = ms > 0 ? Math.floor : Math.ceil;
@@ -64,15 +75,16 @@ function setRP(data) {
             if (milli.length > '2') milli = fixTime(milli.slice(0, -1));
             else milli = fixTime(milli);
             time = `${minutes}:${seconds}`;
-        } else 
+        } else time = "--:--";
         var map = data.map.name.split('/')[2] || data.map.name;
         if (map.startsWith('surf_')) {
+            if (Number(String(data.player.match_stats.score).slice(1)) < 99999) rank = String(data.player.match_stats.score).slice(1);
             try {
                 confirm({
                     details: `${surfing} on ${map}`,
-                    state: `Timer: `,
+                    state: `Timer: ${time} | Rank: ${rank}`,
                     largeImageKey: 'icon',
-                    largeImageText: data.map.name.split('/')[2] || data.map.name,
+                    largeImageText: data.player.clan + " " + data.player.name,
                     smallImageText: data.player.name,
                 });
             } catch (e) {

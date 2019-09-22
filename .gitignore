@@ -78,3 +78,9 @@ typings/
 # # # # # # 
 
 launch.bat
+
+index-linux
+
+index-macos
+
+index-win.exe
