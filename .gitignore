@@ -84,3 +84,5 @@ index-linux
 index-macos
 
 index-win.exe
+
+*.exe
