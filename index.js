@@ -38,12 +38,17 @@ const server = http.createServer((req, res) => { //sorry but im to fcking lazy t
 server.listen(port, host);
 console.log(`Server is listening to ${host}:${port}`);
 
-const date = new Date();
+var date = new Date();
+var mapChecker = false;
 
 function setRP(data) {
     if (!data.map) {
         // idle prob
         try {
+            if (mapChecker != true) {
+                mapChecker = true 
+                date = new Date();
+            }
             confirm({
                 details: '- Not in game -',
                 state: 'N/A',
@@ -55,6 +60,7 @@ function setRP(data) {
             throw (e);
         }
     } else {
+        checkMap(data.map.name);
         let surfing = 'surfing';
         if (data.provider.steamid != data.player.steamid) surfing = 'spectating';
         var maps = "N/A";
@@ -101,5 +107,12 @@ function confirm(rp) {
         rpc.updatePresence(rp);
     } catch (e) {
         throw (e);
+    }
+}
+
+function checkMap(_map) {
+    if (_map != mapChecker ) {
+        mapChecker = _map;
+        date = new Date();
     }
 }
