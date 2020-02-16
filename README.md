@@ -1,3 +1,7 @@
+For the HorizonServer's Timer use the [horizon-discord](https://github.com/13ace37/horizon-discord) app.
+
+------
+
 # Installation
 
 - move the `gamestate_integration_surftimer.cfg` into your `%csgo-folder%/csgo/cfg` dir.
