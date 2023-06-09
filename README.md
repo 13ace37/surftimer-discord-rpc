@@ -1,3 +1,5 @@
+**Important Note**: This project is deprecated and has been replaced by a new and improved version. Please use the updated CS:GO Surftimer RPC available [here](https://github.com/13ace37/surftimer-rpc-gui/) for the latest features and functionality.
+
 For the HorizonServer's Timer use the [horizon-discord](https://github.com/13ace37/horizon-discord) app.
 
 ------
